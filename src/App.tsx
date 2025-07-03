@@ -7,21 +7,24 @@ interface Props {
 
 function App({ pages }: Props) {
 	return (
-		<main>
-			<h1>Accueil</h1>
-			<nav>
-				<ul>
-					{pages.map((page) => {
-						return (
-							<li>
-								<a>{page.name}</a>
-							</li>
-						);
-					})}
-				</ul>
-			</nav>
-			<article></article>
-		</main>
+		<div>
+			<main>
+				<h1>Accueil</h1>
+				<nav>
+					<ul>
+						{pages.map((page) => {
+							return (
+								<li>
+									<a>{page.name}</a>
+								</li>
+							);
+						})}
+					</ul>
+				</nav>
+				<article></article>
+			</main>
+			<footer>© Marie Darrigol</footer>
+		</div>
 	);
 }
 
