@@ -20,6 +20,7 @@ function App({ pages }: Props) {
 					})}
 				</ul>
 			</nav>
+			<article></article>
 		</main>
 	);
 }
