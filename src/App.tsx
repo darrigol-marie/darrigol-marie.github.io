@@ -83,7 +83,7 @@ function App({ pages }: Props) {
 					</article>
 				</main>
 			</div>
-			<footer>© Marie Darrigol</footer>
+			<footer>© 2025 Marie Darrigol</footer>
 		</>
 	);
 }
