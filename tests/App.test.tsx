@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import App from '../src/App';
-import { sitePages } from '../src/types/page.type';
+import { appRoutes } from '../src/App.routes';
 
 describe('App', () => {
 	function renderComponent() {
@@ -26,7 +26,7 @@ describe('App', () => {
 		const navigationBar = screen.getByRole('navigation');
 
 		expect(navigationBar.getElementsByTagName('a')).toHaveLength(
-			sitePages.length
+			appRoutes.length
 		);
 	});
 
