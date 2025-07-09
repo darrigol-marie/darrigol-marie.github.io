@@ -3,6 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import './App.css';
 import { appRoutes, type AppRoute } from './App.routes';
 
+import Header from './components/Header';
+
 function getCurrentRoute(): AppRoute | null {
 	const currentLocation = useLocation();
 
@@ -20,7 +22,7 @@ function App() {
 		<>
 			<div id="page">
 				<main>
-					<h1>{currentRoute ? currentRoute.name : 'Title'}</h1>
+					<Header title={currentRoute ? currentRoute.name : 'Title'} />
 					<nav>
 						<ul>
 							{appRoutes.map((page) => {
