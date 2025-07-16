@@ -1,3 +1,5 @@
+import { useLoaderData } from 'react-router-dom';
+
 export interface Experience {
 	date: string;
 	position: string;
@@ -5,17 +7,17 @@ export interface Experience {
 	description: string;
 }
 
-interface Props {
-	experiences: Experience[];
-}
+function ExperiencePage() {
+	const experiences: Experience[] = useLoaderData();
 
-function ExperiencePage({ experiences }: Props) {
 	return (
 		<>
 			{experiences.length === 0 && <p>Aucune expérience à afficher.</p>}
 			{experiences.map((experience) => {
 				return (
-					<article>
+					<article
+						key={`${experience.date}-${experience.position}-${experience.company}`}
+					>
 						<header>
 							<time dateTime={experience.date}>{experience.date}</time>
 							<h2>{experience.position}</h2>
