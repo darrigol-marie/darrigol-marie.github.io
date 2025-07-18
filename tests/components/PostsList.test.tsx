@@ -7,11 +7,11 @@ import {
 
 import PostsList, { type Post } from '../../src/components/PostsList';
 
-interface ElementProps {
-	title: HTMLElement;
-	text: HTMLElement;
-	date: HTMLElement | null;
-}
+type ElementValue<T> = T extends undefined ? null : HTMLElement;
+
+type ElementProps = {
+	[Key in keyof Post]: ElementValue<Post[Key]>;
+};
 
 interface Props {
 	noPostMessage: HTMLElement | null;
@@ -37,6 +37,7 @@ describe('PostsList', () => {
 					title: context.getByRole('heading'),
 					text: context.getByRole('paragraph'),
 					date: context.queryByRole('time'),
+					subtitle: context.queryByRole('doc-subtitle'),
 				};
 			});
 
@@ -110,6 +111,32 @@ describe('PostsList', () => {
 			} else {
 				expect(component.postsElements[i].date).not.toBeInTheDocument();
 			}
+		}
+	});
+
+	it('should display a subtitle if specified for a post', () => {
+		const mockupPosts: Post[] = [
+			{
+				title: 'Post Without a Subtitle',
+				text: 'This post should not have a subtitle.',
+			},
+			{
+				title: 'Post With a SubTitle',
+				text: 'This post should have a subtitle.',
+				subtitle: 'This is a subtitle',
+			},
+		];
+
+		let component = renderComponent(mockupPosts);
+
+		expect(component.postsElements).toHaveLength(mockupPosts.length);
+		for (let i = 0; i < component.postsElements.length; i++) {
+			const subtitleElement = component.postsElements[i].subtitle;
+			const postSubtitle = mockupPosts[i].subtitle;
+
+			postSubtitle
+				? expect(subtitleElement).toHaveTextContent(postSubtitle)
+				: expect(subtitleElement).not.toBeInTheDocument();
 		}
 	});
 });

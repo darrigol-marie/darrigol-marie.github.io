@@ -2,6 +2,7 @@ export interface Post {
 	title: string;
 	text: string;
 	date?: string;
+	subtitle?: string;
 }
 
 interface Props {
@@ -15,8 +16,9 @@ function PostsList({ posts }: Props) {
 			{posts.map((post) => (
 				<article>
 					<header>
-						<h2>{post.title}</h2>
 						{post.date && <time>{post.date}</time>}
+						<h2>{post.title}</h2>
+						{post.subtitle && <p role="doc-subtitle">{post.subtitle}</p>}
 					</header>
 					<p>{post.text}</p>
 				</article>
