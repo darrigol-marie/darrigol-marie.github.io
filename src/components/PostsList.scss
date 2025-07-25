@@ -4,7 +4,7 @@ $article-margin: 20px;
 $text-margin: 15px;
 $title-margin: 5px;
 
-article {
+.post {
     border-bottom: 1px solid variables.$secondary-color;
 
     margin-bottom: $article-margin;

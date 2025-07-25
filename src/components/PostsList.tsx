@@ -17,7 +17,7 @@ function PostsList({ posts }: Props) {
 		<>
 			{posts.length === 0 && <p>Aucun élément à afficher.</p>}
 			{posts.map((post) => (
-				<article key={post.id}>
+				<article key={post.id} className="post">
 					<header>
 						{post.date && <time>{post.date}</time>}
 						<h2>{post.title}</h2>
