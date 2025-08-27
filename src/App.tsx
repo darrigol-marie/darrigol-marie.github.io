@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { appRoutes } from './App.routes';
+import { rootRoute } from './App.routes';
 import './App.scss';
 
 import Header from './components/Header';
@@ -15,7 +15,7 @@ function App() {
 			</header>
 			<div id="page" className="hidden-overflow">
 				<div id="content" className="hidden-overflow">
-					<Navigation links={appRoutes} />
+					<Navigation links={rootRoute.children} />
 					<main>
 						<Outlet />
 					</main>
