@@ -1,56 +1,61 @@
-import { screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
 
-import ExperiencePage, {
-	type Experience,
-} from '../../src/pages/ExperiencePage';
+import ExperiencePage from '../../src/pages/ExperiencePage';
+import { mockupExperiences } from '../../src/mocks/data';
 import { expectPropToBeRenderedForEachComponent } from '../utils/expect.helper';
-import { renderWithRouter } from '../utils/router.helper';
 
 describe('ExperiencePage', () => {
-	const mockupExperiences: Experience[] = [
-		{
-			id: 'experience-test',
-			date: '2017 - 2022',
-			position: 'Développeuse front-end',
-			company: 'Digital Shape Technologies',
-			description: 'Description pour ce poste',
-		},
-	];
-
-	async function renderComponent(): Promise<void> {
-		renderWithRouter(<ExperiencePage />, mockupExperiences);
-
-		await waitFor(() => screen.getByRole('article'));
+	function renderComponent() {
+		render(<ExperiencePage />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={new QueryClient()}>
+						{children}
+					</QueryClientProvider>
+				);
+			},
+		});
 	}
 
-	it('should display a loading text while loading data', async () => {
-		renderWithRouter(<ExperiencePage />, []);
+	async function completeComponentRendering() {
+		renderComponent();
 
-		await waitFor(() => screen.getByText(/chargement/i));
+		await waitFor(() => screen.getAllByRole('article'));
+	}
+
+	it('should display a loading text while loading data', () => {
+		renderComponent();
 
 		expect(screen.getByText(/chargement/i)).toBeInTheDocument();
 	});
 
+	it('should remove the loading text when data are loaded', async () => {
+		await waitFor(completeComponentRendering);
+
+		expect(screen.queryByText(/chargement/i)).not.toBeInTheDocument();
+	});
+
 	it('should display the date for each experience', async () => {
-		await renderComponent();
+		await waitFor(completeComponentRendering);
 
 		expectPropToBeRenderedForEachComponent('date', mockupExperiences);
 	});
 
 	it('should display the job position for each experience', async () => {
-		await renderComponent();
+		await waitFor(completeComponentRendering);
 
 		expectPropToBeRenderedForEachComponent('position', mockupExperiences);
 	});
 
 	it('should display the company name for each experience', async () => {
-		await renderComponent();
+		await waitFor(completeComponentRendering);
 
 		expectPropToBeRenderedForEachComponent('company', mockupExperiences);
 	});
 
 	it('should display the description of each experience', async () => {
-		await renderComponent();
+		await waitFor(completeComponentRendering);
 
 		expectPropToBeRenderedForEachComponent('description', mockupExperiences);
 	});

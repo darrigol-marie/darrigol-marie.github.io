@@ -1,4 +1,5 @@
-import { useLoaderData } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+
 import PostsList from '../components/PostsList';
 
 export interface Experience {
@@ -10,13 +11,17 @@ export interface Experience {
 }
 
 function ExperiencePage() {
-	const experiences: Experience[] = useLoaderData() || [];
+	const { data = [], isLoading } = useQuery({
+		queryKey: ['experience'],
+		queryFn: () =>
+			fetch('src/data/experiences.json').then((response) => response.json()),
+	});
 
 	return (
 		<>
-			<div>Chargement...</div>
+			{isLoading && <p>Chargement...</p>}
 			<PostsList
-				posts={experiences.map((experience) => {
+				posts={data.map((experience: Experience) => {
 					return {
 						id: experience.id,
 						title: experience.position,
