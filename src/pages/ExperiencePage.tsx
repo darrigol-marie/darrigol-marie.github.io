@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 import PostsList from '../components/PostsList';
 
@@ -14,7 +15,7 @@ function ExperiencePage() {
 	const { data = [], isLoading } = useQuery({
 		queryKey: ['experience'],
 		queryFn: () =>
-			fetch('src/data/experiences.json').then((response) => response.json()),
+			axios.get('/experiences.json').then((response) => response.data),
 	});
 
 	return (

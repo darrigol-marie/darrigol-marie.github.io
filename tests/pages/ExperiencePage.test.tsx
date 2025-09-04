@@ -46,7 +46,7 @@ describe('ExperiencePage', () => {
 
 	it('should display a message when no experience were found', async () => {
 		server.use(
-			http.get('src/data/experiences.json', () => {
+			http.get('/experiences.json', () => {
 				return HttpResponse.json([]);
 			})
 		);
