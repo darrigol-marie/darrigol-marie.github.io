@@ -1,4 +1,6 @@
-import { useLoaderData } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
 import PostsList from '../components/PostsList';
 
 export interface Project {
@@ -9,19 +11,28 @@ export interface Project {
 }
 
 function ProjectsPage() {
-	const projects: Project[] = useLoaderData();
+	const { data = [], isLoading } = useQuery({
+		queryKey: ['projects'],
+		queryFn: () => axios.get('/projects.json').then((response) => response.data),
+	});
 
 	return (
-		<PostsList
-			posts={projects.map((project) => {
-				return {
-					id: project.id,
-					date: project.date,
-					title: project.name,
-					text: project.description,
-				};
-			})}
-		/>
+		<>
+			{isLoading ? (
+				<p>Chargement...</p>
+			) : (
+				<PostsList
+					posts={data.map((project: Project) => {
+						return {
+							id: project.id,
+							date: project.date,
+							title: project.name,
+							text: project.description,
+						};
+					})}
+				/>
+			)}
+		</>
 	);
 }
 

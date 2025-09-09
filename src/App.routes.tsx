@@ -32,8 +32,6 @@ export const rootRoute: RouteObject & {
 			path: '/projects',
 			element: <ProjectsPage />,
 			name: 'Projets',
-			loader: async () =>
-				fetch('src/data/projects.json').then((response) => response.json()),
 		},
 		{
 			path: '/contact',

@@ -1,33 +1,39 @@
-import { screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+	render,
+	screen,
+	waitForElementToBeRemoved,
+} from '@testing-library/react';
 
-import ProjectsPage, { type Project } from '../../src/pages/ProjectsPage';
-import { renderWithRouter } from '../utils/router.helper';
+import ProjectsPage from '../../src/pages/ProjectsPage';
 import { expectPropToBeRenderedForEachComponent } from '../utils/expect.helper';
+import { mockupProjects } from '../mocks/data';
 
 describe('ProjectsPage', () => {
-	const mockupProjects: Project[] = [
-		{
-			id: 'project-test',
-			date: '202X',
-			name: 'Project Name',
-			description: 'Project description',
-		},
-	];
-
-	async function renderComponent(): Promise<void> {
-		renderWithRouter(<ProjectsPage />, mockupProjects);
-
-		await waitFor(() => screen.getByRole('article'));
+	function renderComponent() {
+		render(<ProjectsPage />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={new QueryClient()}>
+						{children}
+					</QueryClientProvider>
+				);
+			},
+		});
 	}
 
 	it('should render the name of each project as heading', async () => {
-		await renderComponent();
+		renderComponent();
+
+		await waitForElementToBeRemoved(screen.getByText(/chargement/i));
 
 		expectPropToBeRenderedForEachComponent('name', mockupProjects);
 	});
 
 	it('should render a description for each project', async () => {
-		await renderComponent();
+		renderComponent();
+
+		await waitForElementToBeRemoved(screen.getByText(/chargement/i));
 
 		expectPropToBeRenderedForEachComponent('description', mockupProjects);
 	});
