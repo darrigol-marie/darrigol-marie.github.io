@@ -9,17 +9,24 @@ type ElementProps = {
 };
 
 interface Props {
+	loadingMessage: HTMLElement | null;
 	noPostMessage: HTMLElement | null;
 	postsElements: ElementProps[];
 }
 
 describe('PostsList', () => {
+	// TODO: export in mocks/data
 	const basicMockupPosts: Post[] = [
 		{ id: 'test', title: 'Post Title', text: 'Post Text' },
 	];
 
-	function renderComponent(postsToRender: Post[] = basicMockupPosts): Props {
-		render(<PostsList posts={postsToRender} />);
+	// TODO: make separate functions for general tests cases (simulateLoading, simulateNoData, simulateError)
+	// It will make all the calls lighter and the code easier to read
+	function renderComponent(
+		isLoading: boolean,
+		postsToRender: Post[] = basicMockupPosts
+	): Props {
+		render(<PostsList posts={postsToRender} isLoading={isLoading} />);
 
 		const postsElements: ElementProps[] = screen
 			.queryAllByRole('article')
@@ -35,11 +42,13 @@ describe('PostsList', () => {
 			});
 
 		return {
+			loadingMessage: screen.queryByText(/chargement/i),
 			noPostMessage: screen.queryByText(/aucun élément/i),
 			postsElements,
 		};
 	}
 
+	// TODO: to remove? or simplify?
 	function checkHTMLElementsForComponentFeature(
 		postsElements: ElementProps[],
 		featureKey: keyof ElementProps,
@@ -57,28 +66,34 @@ describe('PostsList', () => {
 		}
 	}
 
+	it('should display a loading message while data are loading', () => {
+		const component = renderComponent(true);
+
+		expect(component.loadingMessage).toBeInTheDocument();
+	});
+
 	it('should display a message if there is no element to display', () => {
-		const component = renderComponent([]);
+		const component = renderComponent(false, []);
 
 		expect(component.noPostMessage).toBeInTheDocument();
 		expect(component.postsElements).toHaveLength(0);
 	});
 
 	it('should display a list of posts', () => {
-		const component = renderComponent();
+		const component = renderComponent(false);
 
 		expect(component.postsElements).toHaveLength(basicMockupPosts.length);
 		expect(component.noPostMessage).not.toBeInTheDocument();
 	});
 
 	it('should display a title for each post', () => {
-		const component = renderComponent();
+		const component = renderComponent(false);
 
 		checkHTMLElementsForComponentFeature(component.postsElements, 'title');
 	});
 
 	it('should display a text for each post', () => {
-		const component = renderComponent();
+		const component = renderComponent(false);
 
 		checkHTMLElementsForComponentFeature(component.postsElements, 'text');
 	});
@@ -104,7 +119,7 @@ describe('PostsList', () => {
 			},
 		];
 
-		const component = renderComponent(mockupPosts);
+		const component = renderComponent(false, mockupPosts);
 
 		checkHTMLElementsForComponentFeature(
 			component.postsElements,
@@ -128,7 +143,7 @@ describe('PostsList', () => {
 			},
 		];
 
-		const component = renderComponent(mockupPosts);
+		const component = renderComponent(false, mockupPosts);
 
 		checkHTMLElementsForComponentFeature(
 			component.postsElements,

@@ -17,22 +17,17 @@ function ProjectsPage() {
 	});
 
 	return (
-		<>
-			{isLoading ? (
-				<p>Chargement...</p>
-			) : (
-				<PostsList
-					posts={data.map((project: Project) => {
-						return {
-							id: project.id,
-							date: project.date,
-							title: project.name,
-							text: project.description,
-						};
-					})}
-				/>
-			)}
-		</>
+		<PostsList
+			isLoading={isLoading}
+			posts={data.map((project: Project) => {
+				return {
+					id: project.id,
+					date: project.date,
+					title: project.name,
+					text: project.description,
+				};
+			})}
+		/>
 	);
 }
 
