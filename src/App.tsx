@@ -12,18 +12,21 @@ const queryClient = new QueryClient();
 
 function App() {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<Header title="Marie Darrigol" subtitle="Développeuse web" />
-			<div id="page" className="hidden-overflow">
-				<div id="content" className="hidden-overflow">
-					<Navigation links={rootRoute.children} />
-					<main>
-						<Outlet />
-					</main>
+		<>
+			<QueryClientProvider client={queryClient}>
+				<Header title="Marie Darrigol" subtitle="Développeuse web" />
+				<div id="page" className="hidden-overflow">
+					<div id="content" className="hidden-overflow">
+						<Navigation links={rootRoute.children} />
+						<main>
+							<Outlet />
+						</main>
+					</div>
 				</div>
-			</div>
-			<Footer />
-		</QueryClientProvider>
+				<Footer />
+			</QueryClientProvider>
+			<div className="loader"></div>
+		</>
 	);
 }
 
