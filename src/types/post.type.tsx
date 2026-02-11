@@ -1,4 +1,4 @@
-interface PostLink {
+export interface PostLink {
 	source: string;
 	text: string;
 }

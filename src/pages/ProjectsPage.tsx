@@ -3,12 +3,14 @@ import axios from 'axios';
 
 import PostsList from '../components/PostsList';
 import LoadingScreen from '../components/LoadingScreen';
+import type { PostLink } from '../types/post.type';
 
 export interface Project {
 	id: string;
 	date: string;
 	name: string;
 	description: string[];
+	link?: PostLink;
 }
 
 function ProjectsPage() {
@@ -30,6 +32,7 @@ function ProjectsPage() {
 						date: project.date,
 						title: project.name,
 						paragraphs: project.description,
+						link: project.link,
 					};
 				})}
 			/>
