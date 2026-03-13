@@ -6,12 +6,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.scss';
 import { rootRoute } from './App.routes.tsx';
 
-axios.defaults.baseURL = 'src/data';
+axios.defaults.baseURL = import.meta.env.VITE_DATA_PATH;
 
 const router = createBrowserRouter([rootRoute]);
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<RouterProvider router={router} />
-	</StrictMode>
+	</StrictMode>,
 );
