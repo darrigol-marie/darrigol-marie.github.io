@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 
-import PostProps from '../../src/components/Post';
+import Post from '../../src/components/Post';
 
 describe('Post', () => {
 	it('should display a title', () => {
 		const postTitle = 'Title';
 
-		render(<PostProps title={postTitle} date={'XXX'} paragraphs={[]} />);
+		render(<Post id="post-id" title={postTitle} date={'XXX'} paragraphs={[]} />);
 		const titleElement = screen.getByRole('heading');
 
 		expect(titleElement).toBeInTheDocument();
@@ -16,7 +16,7 @@ describe('Post', () => {
 	it('should display a date', () => {
 		const postDate = '202X';
 
-		render(<PostProps title={'Title'} date={postDate} paragraphs={[]} />);
+		render(<Post id="post-id" title={'Title'} date={postDate} paragraphs={[]} />);
 		const dateElement = screen.getByRole('time');
 
 		expect(dateElement).toBeInTheDocument();
@@ -27,7 +27,8 @@ describe('Post', () => {
 		const postSubtitle = 'Subtitle';
 
 		render(
-			<PostProps
+			<Post
+				id="post-id"
 				title={'Title'}
 				date={'XXX'}
 				subtitle={postSubtitle}
@@ -41,7 +42,7 @@ describe('Post', () => {
 	});
 
 	it('should not display a subtitle if not provided', () => {
-		render(<PostProps title={'Title'} date={'XXX'} paragraphs={[]} />);
+		render(<Post id="post-id" title={'Title'} date={'XXX'} paragraphs={[]} />);
 
 		expect(screen.queryByRole('doc-subtitle')).not.toBeInTheDocument();
 	});
@@ -50,7 +51,9 @@ describe('Post', () => {
 		const postParagraph = 'This is a paragraph';
 		const postContent = [postParagraph];
 
-		render(<PostProps title={'Title'} date={'XXX'} paragraphs={postContent} />);
+		render(
+			<Post id="post-id" title={'Title'} date={'XXX'} paragraphs={postContent} />,
+		);
 		const paragraphElement = screen.getByRole('paragraph');
 
 		expect(paragraphElement).toBeInTheDocument();
@@ -65,7 +68,12 @@ describe('Post', () => {
 		];
 
 		render(
-			<PostProps title={'Title'} date={'XXX'} paragraphs={postParagraphs} />,
+			<Post
+				id="post-id"
+				title={'Title'}
+				date={'XXX'}
+				paragraphs={postParagraphs}
+			/>,
 		);
 		const paragraphsElements = screen.getAllByRole('paragraph');
 
@@ -78,7 +86,13 @@ describe('Post', () => {
 		const postLink = { source: linkSource, text: linkText };
 
 		render(
-			<PostProps title={'Title'} date={'XXX'} paragraphs={[]} link={postLink} />,
+			<Post
+				id="post-id"
+				title={'Title'}
+				date={'XXX'}
+				paragraphs={[]}
+				link={postLink}
+			/>,
 		);
 		const linkElement = screen.getByRole('link');
 
@@ -88,7 +102,7 @@ describe('Post', () => {
 	});
 
 	it('should not display a link if not provided', () => {
-		render(<PostProps title={'Title'} date={'XXX'} paragraphs={[]} />);
+		render(<Post id="post-id" title={'Title'} date={'XXX'} paragraphs={[]} />);
 
 		expect(screen.queryByRole('link')).not.toBeInTheDocument();
 	});
