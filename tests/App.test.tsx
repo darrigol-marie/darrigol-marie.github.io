@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from '../src/App';
-import { appRoutes } from '../src/App.routes';
+import { rootRoute } from '../src/App.routes';
+import { navigateTo } from './utils/router.helper';
 
 describe('App', () => {
 	function renderComponent() {
@@ -21,7 +22,7 @@ describe('App', () => {
 		const navigationBar = screen.getByRole('navigation');
 
 		expect(navigationBar.getElementsByTagName('a')).toHaveLength(
-			appRoutes.length
+			rootRoute.children.length
 		);
 	});
 
@@ -35,5 +36,11 @@ describe('App', () => {
 		renderComponent();
 
 		expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+	});
+
+	it('should display a 404 error page when the user navigates to a wrong route', () => {
+		navigateTo('/bad-route');
+
+		expect(screen.getByText('404')).toBeInTheDocument();
 	});
 });
