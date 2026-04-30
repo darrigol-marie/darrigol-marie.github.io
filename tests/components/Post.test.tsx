@@ -29,4 +29,14 @@ describe('Post', () => {
 		expect(postElement).toBeInTheDocument();
 		expect(postElement).toHaveTextContent(postDate);
 	});
+
+	it('should display a subtitle if provided', () => {
+		const postSubtitle = 'Subtitle';
+
+		render(<Post title={'Title'} date={'XXX'} subtitle={postSubtitle} />);
+		const subtitleElement = screen.getByRole('doc-subtitle');
+
+		expect(subtitleElement).toBeInTheDocument();
+		expect(subtitleElement).toHaveTextContent(postSubtitle);
+	});
 });
