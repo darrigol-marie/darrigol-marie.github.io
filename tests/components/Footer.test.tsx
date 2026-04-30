@@ -17,7 +17,7 @@ describe('Footer', () => {
 		expect(screen.getByText(currentYearRegex)).toBeInTheDocument();
 	});
 
-	it("should display website creator' name", () => {
+	it('should display my name', () => {
 		render(<Footer />);
 
 		expect(screen.getByText(/marie darrigol/i)).toBeInTheDocument();
