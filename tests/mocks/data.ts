@@ -1,4 +1,5 @@
 import type { ExperienceData } from "../../src/types/experience.type";
+import { type PostData } from "../../src/types/post.type";
 import type { ProjectData } from "../../src/types/project.type";
 
 export const mockupExperiences: ExperienceData[] = [
@@ -19,3 +20,7 @@ export const mockupProjects: ProjectData[] = [
 			description: ['Project description'],
 		},
 	];
+
+export const mockupPosts: PostData[] = [
+    { id: 'test', description: ['Post Text'], date: '202X' }
+];

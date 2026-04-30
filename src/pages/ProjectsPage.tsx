@@ -1,6 +1,5 @@
 import PostsList from '../components/PostsList';
-import LoadingScreen from '../components/LoadingScreen';
-import { usePosts } from '../hooks/usePosts';
+import { type UsePostsOptions } from '../hooks/usePosts';
 import type { PostLink } from '../types/post.type';
 import { ProjectPost, type ProjectData } from '../types/project.type';
 
@@ -13,25 +12,18 @@ export interface Project {
 }
 
 function ProjectsPage() {
-	const {
-		data = [],
-		isLoading,
-		isError,
-	} = usePosts<ProjectData, ProjectPost>({
+	const projectsHookOptions: UsePostsOptions<ProjectData, ProjectPost> = {
 		queryKey: ['projects'],
 		url: '/projects.json',
 		dataMapper: (item) => new ProjectPost(item),
-	});
+	};
 
 	return (
-		<LoadingScreen
-			isLoading={isLoading}
-			isError={isError}
-			isEmpty={!isLoading && data.length === 0}
-			emptyMessage="Aucun projet trouvé."
-		>
-			<PostsList posts={data} />
-		</LoadingScreen>
+		<PostsList
+			postsHookOptions={projectsHookOptions}
+			noPostMessage="Aucun projet trouvé."
+			errorMessage="Une erreur est survenue lors du chargement des projets."
+		/>
 	);
 }
 

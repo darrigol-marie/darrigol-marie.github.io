@@ -1,8 +1,16 @@
-import { render, screen, within } from '@testing-library/react';
+import {
+	render,
+	screen,
+	waitForElementToBeRemoved,
+	within,
+} from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { mockupPosts } from '../mocks/data';
 
 import PostsList from '../../src/components/PostsList';
-
-import { PostItem } from '../../src/types/post.type';
+import type { UsePostsOptions } from '../../src/hooks/usePosts';
+import { PostItem, type PostData } from '../../src/types/post.type';
 
 type ElementValue<T> = T extends undefined ? null : HTMLElement;
 
@@ -21,16 +29,29 @@ interface Props {
 }
 
 describe('PostsList', () => {
-	// TODO: export in mocks/data
-	const basicMockupPosts: PostItem[] = [
-		new PostItem(
-			{ id: 'test', description: ['Post Text'], date: '202X' },
-			'Post Title',
-		),
-	];
+	const mockupHookOptions: UsePostsOptions<PostData, PostItem> = {
+		queryKey: ['posts'],
+		url: '/posts.json',
+		dataMapper: (item) => new PostItem(item, 'Post Title'),
+	};
 
-	function renderComponent(postsToRender: PostItem[] = basicMockupPosts): Props {
-		render(<PostsList posts={postsToRender} />);
+	// TODO: to transform as a helper function (include render component function as well?)
+	function waitForLoadingCompletion(): Promise<void> {
+		return waitForElementToBeRemoved(() => screen.getByTitle(/animation/i));
+	}
+
+	async function renderComponent(): Promise<Props> {
+		render(<PostsList postsHookOptions={mockupHookOptions} />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={new QueryClient()}>
+						{children}
+					</QueryClientProvider>
+				);
+			},
+		});
+
+		await waitForLoadingCompletion();
 
 		const postsElements: ElementProps[] = screen
 			.queryAllByRole('article')
@@ -52,10 +73,10 @@ describe('PostsList', () => {
 		};
 	}
 
-	it('should display a list of posts', () => {
-		const component = renderComponent();
+	it('should display a list of posts', async () => {
+		const component = await renderComponent();
 
-		expect(component.postsElements).toHaveLength(basicMockupPosts.length);
+		expect(component.postsElements).toHaveLength(mockupPosts.length);
 		expect(component.noPostMessage).not.toBeInTheDocument();
 	});
 });
