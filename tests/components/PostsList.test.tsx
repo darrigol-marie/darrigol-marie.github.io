@@ -1,16 +1,11 @@
-import {
-	render,
-	screen,
-	waitForElementToBeRemoved,
-	within,
-} from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { screen, within } from '@testing-library/react';
 
 import { mockupPosts } from '../mocks/data';
 
 import PostsList from '../../src/components/PostsList';
 import type { UsePostsOptions } from '../../src/hooks/usePosts';
 import { PostItem, type PostData } from '../../src/types/post.type';
+import { renderComponentWithLoadingAnimation } from '../utils/render.helper';
 
 type ElementValue<T> = T extends undefined ? null : HTMLElement;
 
@@ -35,23 +30,10 @@ describe('PostsList', () => {
 		dataMapper: (item) => new PostItem(item, 'Post Title'),
 	};
 
-	// TODO: to transform as a helper function (include render component function as well?)
-	function waitForLoadingCompletion(): Promise<void> {
-		return waitForElementToBeRemoved(() => screen.getByTitle(/animation/i));
-	}
-
 	async function renderComponent(): Promise<Props> {
-		render(<PostsList postsHookOptions={mockupHookOptions} />, {
-			wrapper: ({ children }) => {
-				return (
-					<QueryClientProvider client={new QueryClient()}>
-						{children}
-					</QueryClientProvider>
-				);
-			},
-		});
-
-		await waitForLoadingCompletion();
+		await renderComponentWithLoadingAnimation(
+			<PostsList postsHookOptions={mockupHookOptions} />,
+		);
 
 		const postsElements: ElementProps[] = screen
 			.queryAllByRole('article')

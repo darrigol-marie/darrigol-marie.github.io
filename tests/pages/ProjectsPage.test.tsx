@@ -1,27 +1,16 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-	render,
-	screen,
-	waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 
-import ProjectsPage from '../../src/pages/ProjectsPage';
 import { expectPropToBeRenderedForEachComponent } from '../utils/expect.helper';
 import { mockupProjects } from '../mocks/data';
 import { server } from '../mocks/server';
+import { renderComponentWithLoadingAnimation } from '../utils/render.helper';
+
+import ProjectsPage from '../../src/pages/ProjectsPage';
 
 describe('ProjectsPage', () => {
-	function renderComponent() {
-		render(<ProjectsPage />, {
-			wrapper: ({ children }) => {
-				return (
-					<QueryClientProvider client={new QueryClient()}>
-						{children}
-					</QueryClientProvider>
-				);
-			},
-		});
+	async function renderComponent(): Promise<void> {
+		await renderComponentWithLoadingAnimation(<ProjectsPage />);
 	}
 
 	it('should display a message when no project were found', async () => {
@@ -30,25 +19,20 @@ describe('ProjectsPage', () => {
 				return HttpResponse.json([]);
 			}),
 		);
-		renderComponent();
 
-		await waitForElementToBeRemoved(screen.getByTitle(/animation/i));
+		await renderComponent();
 
 		expect(screen.getByText(/aucun projet/i)).toBeInTheDocument();
 	});
 
 	it('should render the name of each project as heading', async () => {
-		renderComponent();
-
-		await waitForElementToBeRemoved(screen.getByTitle(/animation/i));
+		await renderComponent();
 
 		expectPropToBeRenderedForEachComponent('name', mockupProjects);
 	});
 
 	it('should render a description for each project', async () => {
-		renderComponent();
-
-		await waitForElementToBeRemoved(screen.getByTitle(/animation/i));
+		await renderComponent();
 
 		expectPropToBeRenderedForEachComponent('description', mockupProjects);
 	});
