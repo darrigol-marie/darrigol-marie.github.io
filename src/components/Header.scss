@@ -24,7 +24,7 @@
   }
 }
 
-@media (max-width: variables.$mobile-device-max-width) {
+@media (max-width: variables.$tablet-max-width) {
   .header {
     flex: 0;
 
