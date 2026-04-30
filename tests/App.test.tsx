@@ -8,7 +8,7 @@ describe('App', () => {
 		render(<App pages={pages} />);
 	}
 
-	it('should display the main content', () => {
+	it('should display the page', () => {
 		renderComponent();
 
 		expect(screen.getByRole('main')).toBeInTheDocument();
@@ -28,5 +28,11 @@ describe('App', () => {
 		expect(navigationBar.getElementsByTagName('a')).toHaveLength(
 			sitePages.length
 		);
+	});
+
+	it('should display the content of the page', () => {
+		renderComponent();
+
+		expect(screen.getByRole('article')).toBeInTheDocument();
 	});
 });
