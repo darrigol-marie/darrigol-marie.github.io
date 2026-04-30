@@ -35,4 +35,12 @@ describe('App', () => {
 
 		expect(screen.getByRole('article')).toBeInTheDocument();
 	});
+
+	it('should display a footer with some credits', () => {
+		renderComponent();
+
+		const footer = screen.getByRole('contentinfo');
+
+		expect(footer).toHaveTextContent(/marie darrigol/i);
+	});
 });
