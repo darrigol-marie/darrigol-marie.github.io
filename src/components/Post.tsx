@@ -2,9 +2,7 @@ import './Post.scss';
 
 import { type PostProps } from '../types/post.type';
 
-interface Props extends PostProps {}
-
-function Post({ id, title, date, subtitle, paragraphs, link }: Props) {
+function Post({ id, title, date, subtitle, paragraphs, link }: PostProps) {
 	return (
 		<article key={id} className="post">
 			<header className="post-header">
@@ -13,13 +11,13 @@ function Post({ id, title, date, subtitle, paragraphs, link }: Props) {
 				{subtitle && <p role="doc-subtitle">{subtitle}</p>}
 			</header>
 			<section className="post-content">
-				{paragraphs.map((paragraph) => (
-					<p key={crypto.randomUUID()}>{paragraph}</p>
+				{paragraphs.map((paragraph, index) => (
+					<p key={index}>{paragraph}</p>
 				))}
 			</section>
 			<section className="post-link">
 				{link && (
-					<a href={link.source} target="_blank">
+					<a href={link.source} target="_blank" rel="noreferrer">
 						{link.text}
 					</a>
 				)}
