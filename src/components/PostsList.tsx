@@ -1,3 +1,5 @@
+import './PostsList.scss';
+
 export interface Post {
 	id: string;
 	title: string;

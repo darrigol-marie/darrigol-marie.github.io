@@ -1,0 +1,36 @@
+@use '../variables.scss';
+
+$article-margin: 20px;
+$text-margin: 15px;
+$title-margin: 5px;
+
+article {
+    border-bottom: 1px solid variables.$primary-color;
+
+    margin-bottom: $article-margin;
+    padding-bottom: $article-margin;
+
+    &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    header {
+        color: variables.$secondary-color;
+
+        h2 {
+            margin: $title-margin 0;
+        }
+
+        p {
+            margin: 0;
+
+            font-style: italic;
+        }
+    }
+
+    p {
+        margin: 0;
+        margin-top: $text-margin;
+    }
+}
