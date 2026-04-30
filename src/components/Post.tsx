@@ -7,10 +7,10 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-	const { id, title, date, subtitle, paragraphs, link } = post;
+	const { title, date, subtitle, paragraphs, link } = post;
 
 	return (
-		<article key={id} className="post">
+		<>
 			<header className="post-header">
 				<time>{date}</time>
 				<h2>{title}</h2>
@@ -28,7 +28,7 @@ function Post({ post }: Props) {
 					</a>
 				)}
 			</section>
-		</article>
+		</>
 	);
 }
 

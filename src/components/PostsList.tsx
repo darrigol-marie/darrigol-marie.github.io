@@ -11,7 +11,9 @@ function PostsList({ posts }: Props) {
 	return (
 		<>
 			{posts.map((post) => (
-				<Post post={post} />
+				<article key={post.id} className="post">
+					<Post post={post} />
+				</article>
 			))}
 		</>
 	);
