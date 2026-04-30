@@ -37,5 +37,9 @@ describe('ProjectsPage', () => {
 		expectPropToBeRenderedForEachComponent('description', mockupProjects);
 	});
 
-	// TODO: add test for projects date
+	it('should render a date for each project', async () => {
+		await renderComponent();
+
+		expectPropToBeRenderedForEachComponent('date', mockupProjects);
+	});
 });
