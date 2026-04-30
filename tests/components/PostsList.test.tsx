@@ -2,12 +2,12 @@ import { render, screen, within } from '@testing-library/react';
 
 import PostsList from '../../src/components/PostsList';
 
-import { type PostItem } from '../../src/types/post.type';
+import { PostItem } from '../../src/types/post.type';
 
 type ElementValue<T> = T extends undefined ? null : HTMLElement;
 
 type ElementProps = {
-	[Key in keyof PostItem as Key extends 'id'
+	[Key in keyof PostItem as Key extends 'id' | 'setSubtitle' | 'setLink'
 		? never
 		: Key]: Key extends 'paragraphs'
 		? ElementValue<PostItem[Key]>[]
@@ -23,7 +23,10 @@ interface Props {
 describe('PostsList', () => {
 	// TODO: export in mocks/data
 	const basicMockupPosts: PostItem[] = [
-		{ id: 'test', title: 'Post Title', paragraphs: ['Post Text'], date: '202X' },
+		new PostItem(
+			{ id: 'test', description: ['Post Text'], date: '202X' },
+			'Post Title',
+		),
 	];
 
 	function renderComponent(postsToRender: PostItem[] = basicMockupPosts): Props {

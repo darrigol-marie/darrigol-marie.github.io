@@ -7,7 +7,6 @@ export interface PostData {
 	id: string;
 	date: string;
 	description: string[];
-	link?: PostLink;
 }
 
 export class PostItem {
@@ -24,6 +23,10 @@ export class PostItem {
 		this.paragraphs = data.description;
 
 		this.title = title;
+	}
+
+	setSubtitle(subtitle: string) {
+		this.subtitle = subtitle;
 	}
 
 	setLink(link: PostLink) {

@@ -9,6 +9,6 @@ export class ExperiencePost extends PostItem {
 	constructor(data: ExperienceData) {
 		super(data, data.position);
 
-		this.subtitle = data.company;
+		this.setSubtitle(data.company);
 	}
 }

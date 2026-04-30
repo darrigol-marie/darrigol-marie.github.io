@@ -1,7 +1,8 @@
-import { PostItem, type PostData } from './post.type';
+import { PostItem, type PostData, type PostLink } from './post.type';
 
 export interface ProjectData extends PostData {
 	name: string;
+	link?: PostLink;
 }
 
 export class ProjectPost extends PostItem {
