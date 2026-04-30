@@ -1,5 +1,7 @@
 @use '../variables.scss';
 
+$hover-animation-duration: 150ms;
+
 nav {
   position: sticky;
   top: 0;
@@ -20,9 +22,11 @@ nav {
       
       &:hover {
         background-color: variables.$tertiary-color;
+        transition: background-color $hover-animation-duration;
 
         a {
           color: variables.$accent-color;
+          transition: color $hover-animation-duration;
         }
       }
       
