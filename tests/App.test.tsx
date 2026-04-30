@@ -10,7 +10,7 @@ describe('App', () => {
 		render(<App />, { wrapper: BrowserRouter });
 	}
 
-	it('should display a title saying "À propos"', () => {
+	it('should display a title', () => {
 		renderComponent();
 
 		expect(screen.getByRole('heading')).toBeInTheDocument();
