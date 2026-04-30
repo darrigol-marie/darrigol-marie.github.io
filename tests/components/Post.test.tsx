@@ -51,7 +51,7 @@ describe('Post', () => {
 		expect(screen.queryByRole('doc-subtitle')).not.toBeInTheDocument();
 	});
 
-	it('should display a paragraph if provided in the content', () => {
+	it('should display a paragraph if provided', () => {
 		const postParagraph = 'This is a paragraph';
 		const postContent = [postParagraph];
 
@@ -73,5 +73,18 @@ describe('Post', () => {
 		const paragraphsElements = screen.getAllByRole('paragraph');
 
 		expect(paragraphsElements).toHaveLength(postParagraphs.length);
+	});
+
+	it('should display a link if provided', () => {
+		const linkSource = 'www.toto.com';
+		const linkText = 'This is a link';
+		const postLink = { source: linkSource, text: linkText };
+
+		render(<Post title={'Title'} date={'XXX'} paragraphs={[]} link={postLink} />);
+		const linkElement = screen.getByRole('link');
+
+		expect(linkElement).toBeInTheDocument();
+		expect(linkElement).toHaveAttribute('href', linkSource);
+		expect(linkElement).toHaveTextContent(linkText);
 	});
 });

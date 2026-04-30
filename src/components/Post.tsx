@@ -3,9 +3,10 @@ interface Props {
 	date: string;
 	paragraphs: string[];
 	subtitle?: string;
+	link?: { source: string; text: string };
 }
 
-function Post({ title, date, subtitle, paragraphs }: Props) {
+function Post({ title, date, subtitle, paragraphs, link }: Props) {
 	return (
 		<>
 			<h1>{title}</h1>
@@ -14,6 +15,7 @@ function Post({ title, date, subtitle, paragraphs }: Props) {
 			{paragraphs.map((paragraph) => (
 				<p>{paragraph}</p>
 			))}
+			{link && <a href={link.source}>{link.text}</a>}
 		</>
 	);
 }
