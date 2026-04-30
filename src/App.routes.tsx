@@ -18,9 +18,13 @@ export const appRoutes: AppRoute[] = [
 	},
 	{
 		path: '/experience',
-		// TODO: extract experiences in data folder
-		element: <ExperiencePage experiences={[]} />,
+		element: <ExperiencePage />,
 		name: 'Expérience',
+		loader: async () => {
+			return fetch('src/data/experiences.json').then((response) =>
+				response.json()
+			);
+		},
 	},
 	{
 		path: '/projects',

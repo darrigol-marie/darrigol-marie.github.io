@@ -1,8 +1,13 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import ExperiencePage, {
 	type Experience,
 } from '../../src/pages/ExperiencePage';
+import {
+	createMemoryRouter,
+	RouterProvider,
+	type RouteObject,
+} from 'react-router-dom';
 
 describe('ExperiencePage', () => {
 	const jobTitlePattern = 'développeuse|stagiaire';
@@ -25,29 +30,43 @@ describe('ExperiencePage', () => {
 		return screen.queryByText(/aucune expérience/i);
 	}
 
-	function renderComponent(experiences: Experience[]): {
+	async function renderComponent(experiences: Experience[]): Promise<{
 		experiences: HTMLElement[];
-	} {
-		render(<ExperiencePage experiences={experiences} />);
+	}> {
+		const routes: RouteObject[] = [
+			{
+				path: '/',
+				element: <ExperiencePage />,
+				loader: () => experiences,
+			},
+		];
+		const router = createMemoryRouter(routes, {
+			initialEntries: ['/'],
+			initialIndex: 1,
+		});
 
-		return { experiences: screen.queryAllByRole('article') || [] };
+		render(<RouterProvider router={router} />);
+		await waitFor(() => screen.getByRole('paragraph'));
+
+		return { experiences: screen.queryAllByRole('article') };
 	}
 
-	it('should display a message when there is no experience to display', () => {
-		renderComponent([]);
+	it('should display a message when there is no experience to display', async () => {
+		const component = await renderComponent([]);
 
 		expect(searchForNoExperienceMessage()).toBeInTheDocument();
+		expect(component.experiences).toHaveLength(0);
 	});
 
-	it('should display the list of the given experiences', () => {
-		const component = renderComponent(experiences);
+	it('should display the list of the given experiences', async () => {
+		const component = await renderComponent(experiences);
 
 		expect(component.experiences).toHaveLength(experiences.length);
 		expect(searchForNoExperienceMessage()).not.toBeInTheDocument();
 	});
 
-	it('should display the date for each experience', () => {
-		const component = renderComponent(experiences);
+	it('should display the date for each experience', async () => {
+		const component = await renderComponent(experiences);
 
 		const experiencesDate = screen.getAllByRole('time');
 
@@ -57,8 +76,8 @@ describe('ExperiencePage', () => {
 		}
 	});
 
-	it('should display the job position for each experience', () => {
-		const component = renderComponent(experiences);
+	it('should display the job position for each experience', async () => {
+		const component = await renderComponent(experiences);
 
 		const positions = screen.getAllByRole('heading', {
 			name: getHeadingSearchPattern(true),
@@ -70,8 +89,8 @@ describe('ExperiencePage', () => {
 		}
 	});
 
-	it('should display the company name for each experience', () => {
-		const component = renderComponent(experiences);
+	it('should display the company name for each experience', async () => {
+		const component = await renderComponent(experiences);
 
 		const companyNames = screen.getAllByRole('heading', {
 			name: getHeadingSearchPattern(false),
@@ -83,8 +102,8 @@ describe('ExperiencePage', () => {
 		}
 	});
 
-	it('should display the description of each experience', () => {
-		const component = renderComponent(experiences);
+	it('should display the description of each experience', async () => {
+		const component = await renderComponent(experiences);
 
 		const experiencesDescriptions = screen.getAllByRole('paragraph');
 
