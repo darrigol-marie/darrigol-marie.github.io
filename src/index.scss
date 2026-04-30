@@ -3,10 +3,7 @@
 body {
   margin: 0;
 
-  background-color: variables.$white-color;
-  background-image: url(/doodles_placeholder_light.png), url(/doodles_placeholder_light.png);
-  background-position: top left, top right;
-  background-repeat: repeat-y;
+  background: linear-gradient(to right, variables.$background-color 10%, variables.$white-color 10% 90%, variables.$background-color 90%);
 
   color: variables.$black-color;
   font-family: "Open Sans", sans-serif;
@@ -24,12 +21,5 @@ a {
 
   &:hover {
     color: variables.$primary-color;
-  }
-}
-
-@media (max-width: variables.$small-device-width) {
-  body {
-    background-image: url(/doodles_placeholder_light.png);
-    background-position: center;
   }
 }
