@@ -14,7 +14,13 @@ function Post({ id, title, date, subtitle, paragraphs, link }: Props) {
 				{paragraphs.map((paragraph) => (
 					<p>{paragraph}</p>
 				))}
-				{link && <a href={link.source}>{link.text}</a>}
+			</section>
+			<section>
+				{link && (
+					<a href={link.source} target="_blank">
+						{link.text}
+					</a>
+				)}
 			</section>
 		</article>
 	);
